@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import config from './config'; // Adjust the path as necessary
 
 const LogIn = () => {
-  //console.log('LogIn component rendered'); // Add this line to check if component renders
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -12,33 +11,25 @@ const LogIn = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-   // console.log('handleLogin triggered'); // Add this line to check if function is triggered
 
     try {
-      //console.log('Sending login request to server...');
-      const response = await axios.post('http://localhost:3000/login', { email, password });
-      //console.log('Response received:', response);
+      const response = await axios.post(`${config.apiUrl}/login`, { email, password });
 
       if (response.data.success) {
-        //console.log('Login successful!');
         const user = response.data.user;
-        //console.log('User data:', user);
-        
-        // Remove the password before storing the user object
-        const { password, ...userWithoutPassword } = user;
+        const { password, ...userWithoutPassword } = user; // Remove the password before storing the user object
         localStorage.setItem('user', JSON.stringify(userWithoutPassword));
         
         const userInfo = localStorage.getItem('user');
         console.log('Stored user info:', userInfo);
-        
+
         // Pass username to HomePage
         navigate('/homepage', { state: { username: user.username } });
       } else {
-        //console.log('Login failed with error:', response.data.error);
         setError(response.data.error);
       }
     } catch (error) {
-     // console.error('Error during login:', error);
+      console.error('Error during login:', error);
       setError('An error occurred. Please try again.');
     }
   };
@@ -71,7 +62,7 @@ const LogIn = () => {
               required
             />
           </div>
-          <button onClick={handleLogin}>Login</button>
+          <button type="submit">Login</button>
         </form>
         <p>New here? <Link to='/register'>Create an account</Link></p>
       </div>

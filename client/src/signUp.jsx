@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import config from './config'; // Adjust the path as necessary
 
 const NewAccount = () => {
   const [username, setUsername] = useState('');
@@ -16,7 +17,7 @@ const NewAccount = () => {
       const userData = { username, email, password };
       console.log(userData);
 
-      const response = await axios.post('http://localhost:3000/register', userData);
+      const response = await axios.post(`${config.apiUrl}/register`, userData);
       console.log(response);
       navigate('/login'); // Navigate to the login page after successful registration
     } catch (error) {

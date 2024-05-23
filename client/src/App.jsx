@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import NewAccount from './signUp.jsx';
 import LogIn from './logIn.jsx';
 import HomePage from './homePage.jsx';
@@ -18,6 +18,7 @@ function App() {
         <Route path='/gym-log' element={<ProtectedRoute><GymLog /></ProtectedRoute>} />
         <Route path='/profile' element={<ProtectedRoute><ProfileInfo /></ProtectedRoute>} />
         <Route path='/tools' element={<ProtectedRoute><Tools /></ProtectedRoute>} />
+        <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );
